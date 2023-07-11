@@ -7,38 +7,44 @@ import { Container, Title, SubTitle } from './App.styled';
 
 export class App extends Component {
   state = {
-    contacts: [],
+    phonebook: [],
     filter: '',
   };
 
+  // Добавить контакт
   addContact = ({ name, number }) => {
-    const contact = {
+    const unit = {
       id: nanoid(),
       name,
       number,
     };
-    this.state.contacts.find(
-      contact => contact.name.toLowerCase() === name.toLowerCase()
+
+    // Проверка повтора имени контакта
+    this.state.phonebook.find(
+      unit => unit.name.toLowerCase() === name.toLowerCase()
     )
-      ? alert(`${name} is already in contacts.`)
-      : this.setState(({ contacts }) => ({ contacts: [...contacts, contact] }));
+      ? alert(`${name} is already in contact list.`)
+      : this.setState(({ phonebook }) => ({ phonebook: [...phonebook, unit] }));
   };
 
+  // Изменение набoра строки фильтра
   changeFilter = e => {
     this.setState({ filter: e.currentTarget.value });
   };
 
+  // Показать контакты согласно поиска фильтра
   getVisibleContacts = () => {
-    const { filter, contacts } = this.state;
+    const { filter, phonebook } = this.state;
     const normalizedFilter = filter.toLowerCase();
-    return contacts.filter(contact =>
-      contact.name.toLowerCase().includes(normalizedFilter)
+    return phonebook.filter(unit =>
+      unit.name.toLowerCase().includes(normalizedFilter)
     );
   };
 
-  deleteContact = contactId => {
-    this.setState(({ contacts }) => ({
-      contacts: contacts.filter(contact => contact.id !== contactId),
+  // Удалить контакт 
+  deleteContact = id => {
+    this.setState(({ phonebook }) => ({
+      phonebook: phonebook.filter(unit => unit.id !== id),
     }));
   };
 
