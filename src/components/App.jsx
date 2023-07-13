@@ -11,7 +11,20 @@ export class App extends Component {
     filter: '',
   };
 
-  // Добавить контакт
+  componentDidMount() {
+    const contacts = localStorage.getItem('contactList');
+    const parsedContacts = JSON.parse(contacts);
+    if (parsedContacts) {
+      this.setState({ phonebook: parsedContacts });
+    }
+  }
+
+  componentDidUpdate(_, prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      localStorage.setItem('contactList', JSON.stringify(this.state.phonebook));
+    }
+  }
+
   addContact = ({ name, number }) => {
     const unit = {
       id: nanoid(),
@@ -19,7 +32,6 @@ export class App extends Component {
       number,
     };
 
-    // Проверка повтора имени контакта
     this.state.phonebook.find(
       unit => unit.name.toLowerCase() === name.toLowerCase()
     )
@@ -27,12 +39,10 @@ export class App extends Component {
       : this.setState(({ phonebook }) => ({ phonebook: [...phonebook, unit] }));
   };
 
-  // Изменение набoра строки фильтра
   changeFilter = e => {
     this.setState({ filter: e.currentTarget.value });
   };
 
-  // Показать контакты согласно поиска фильтра
   getVisibleContacts = () => {
     const { filter, phonebook } = this.state;
     const normalizedFilter = filter.toLowerCase();
@@ -41,7 +51,6 @@ export class App extends Component {
     );
   };
 
-  // Удалить контакт 
   deleteContact = id => {
     this.setState(({ phonebook }) => ({
       phonebook: phonebook.filter(unit => unit.id !== id),
