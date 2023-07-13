@@ -11,19 +11,19 @@ export class App extends Component {
     filter: '',
   };
 
-  componentDidMount() {
-    const contacts = localStorage.getItem('contactList');
-    const parsedContacts = JSON.parse(contacts);
-    if (parsedContacts) {
-      this.setState({ phonebook: parsedContacts });
-    }
-  }
+  // componentDidMount() {
+  //   const contacts = localStorage.getItem('contactList');
+  //   const parsedContacts = JSON.parse(contacts);
+  //   if (parsedContacts) {
+  //     this.setState({ phonebook: parsedContacts });
+  //   }
+  // }
 
-  componentDidUpdate(_, prevState) {
-    if (this.state.contacts !== prevState.contacts) {
-      localStorage.setItem('contactList', JSON.stringify(this.state.phonebook));
-    }
-  }
+  // componentDidUpdate(_, prevState) {
+  //   if (this.state.contacts !== prevState.contacts) {
+  //     localStorage.setItem('contactList', JSON.stringify(this.state.phonebook));
+  //   }
+  // }
 
   addContact = ({ name, number }) => {
     const unit = {
